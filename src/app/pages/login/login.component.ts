@@ -8,5 +8,7 @@ import { Component } from '@angular/core';
     styleUrl: './login.component.scss'
 })
 export class LoginComponent {
+    loginForm = new FormGroup({
+        email: new FormControl('', [Validators.required, Validators.email]),
 
 }

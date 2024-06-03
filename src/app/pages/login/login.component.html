@@ -1,11 +1,31 @@
-<form>
+<form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
     <div class="mb-3">
         <label for="email" class="form-label">Email</label>
-        <input type="email" class="form-control" id="email">
+        <input type="email" class="form-control" id="email" formControlName="email">
+
+        @if (loginForm.controls.email.invalid && (loginForm.controls.email.dirty || loginForm.controls.email.touched)) {
+            @if (loginForm.controls.email.errors?.['required']) {
+                <div class="form-text">Email is required.</div>
+            }
+            @if (loginForm.controls.email.errors?.['email']) {
+                <div class="form-text">Email address is not valid.</div>
+            }
+        }
     </div>
+
     <div class="mb-3">
         <label for="password" class="form-label">Password</label>
-        <input type="password" class="form-control" id="password">
+        <input type="password" class="form-control" id="password" formControlName="password">
+
+        @if (loginForm.controls.password.invalid && (loginForm.controls.password.dirty || loginForm.controls.password.touched)) {
+            @if (loginForm.controls.password.errors?.['required']) {
+                <div class="form-text">Password is required.</div>
+            }
+            @if (loginForm.controls.password.errors?.['minlength']) {
+                <div class="form-text">Password must be at least 4 characters.</div>
+            }
+        }
     </div>
-    <button type="submit" class="btn btn-primary">Submit</button>
+    <button type="submit" class="btn btn-primary" [disabled]="loginForm.invalid">Login</button>
 </form>
+
