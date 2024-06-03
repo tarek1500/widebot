@@ -29,3 +29,6 @@
     <button type="submit" class="btn btn-primary" [disabled]="loginForm.invalid">Login</button>
 </form>
 
+@if (error$ | async; as error) {
+    <div class="mt-2">{{ error }}</div>
+}

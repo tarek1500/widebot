@@ -1,7 +1,9 @@
-import { Component } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { Store } from '@ngrx/store';
+import { Store, select } from '@ngrx/store';
+import { Router } from '@angular/router';
+import { Observable, Subject, takeUntil } from 'rxjs';
 import * as fromApp from '../../state';
 import * as appActions from '../../state/app.actions';
 
@@ -12,13 +14,33 @@ import * as appActions from '../../state/app.actions';
     templateUrl: './login.component.html',
     styleUrl: './login.component.scss'
 })
-export class LoginComponent {
+export class LoginComponent implements OnInit, OnDestroy {
+    componentAlive$ = new Subject;
     loginForm = new FormGroup({
         email: new FormControl('', [Validators.required, Validators.email]),
         password: new FormControl('', [Validators.required, Validators.minLength(4)])
     });
+    error$?: Observable<string>;
 
-    constructor(private store: Store<fromApp.State>) { }
+    constructor(private store: Store<fromApp.State>, private router: Router) { }
+
+    ngOnInit(): void {
+        this.store.pipe(
+            takeUntil(this.componentAlive$),
+            select(fromApp.getCurrentUser)
+        ).subscribe(user => {
+            if (user) {
+                localStorage.setItem('user', JSON.stringify(user));
+                this.router.navigate(['/']);
+            }
+        });
+        this.error$ = this.store.pipe(select(fromApp.getError));
+    }
+
+    ngOnDestroy(): void {
+        this.componentAlive$.next(null);
+        this.componentAlive$.complete();
+    }
 
     onSubmit() {
         if (this.loginForm.valid) {
