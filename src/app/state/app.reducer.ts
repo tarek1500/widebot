@@ -25,6 +25,11 @@ export function userReducer(state = initialState, action: UserActions): UserStat
                 currentUser: null,
                 error: action.payload
             };
+        case AuthActionTypes.LogoutSuccess:
+            return {
+                ...state,
+                currentUser: null
+            }
         default:
             return state;
     }

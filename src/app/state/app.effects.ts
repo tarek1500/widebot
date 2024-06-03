@@ -20,4 +20,15 @@ export class UserEffects {
             })
         )
     );
+
+    logout$ = createEffect(() =>
+        this.actions$.pipe(
+            ofType(appActions.AuthActionTypes.Logout),
+            mergeMap(action => {
+                return this.authService.logout().pipe(
+                    map(res => new appActions.LogoutSuccess)
+                );
+            })
+        )
+    );
 }

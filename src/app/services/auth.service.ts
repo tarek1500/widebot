@@ -35,4 +35,8 @@ export class AuthService {
 
         return throwError(() => new Error("Credential doesn't match our records"));
     }
+
+    logout(): Observable<any> {
+        return of(true);
+    }
 }

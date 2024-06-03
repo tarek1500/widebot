@@ -9,7 +9,7 @@
                 <li class="nav-item">
                     <a [routerLink]="['/']" class="nav-link" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">Home</a>
                 </li>
-                @if (user$ | async; as user) {
+                @if (user) {
                     <li class="nav-item">
                         <a [routerLink]="['/profile']" class="nav-link" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">Profile</a>
                     </li>
@@ -21,9 +21,9 @@
                 }
             </ul>
             <ul class="navbar-nav" role="search">
-                @if (user$ | async; as user) {
+                @if (user) {
                     <li class="nav-item">
-                        <a class="nav-link" href="#logout">Logout</a>
+                        <a class="nav-link" href="#logout" (click)="logout($event)">Logout</a>
                     </li>
                 }
                 @else {
