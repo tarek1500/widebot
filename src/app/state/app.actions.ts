@@ -6,7 +6,8 @@ export enum AuthActionTypes {
     LoginSuccess = '[Auth] Login Success',
     LoginFail = '[Auth] Login Fail',
     Logout = '[Auth] Logout',
-    LogoutSuccess = '[Auth] Logout Success'
+    LogoutSuccess = '[Auth] Logout Success',
+    UpdateUser = '[Auth] Update User'
 }
 
 export enum UserActionTypes {
@@ -48,6 +49,12 @@ export class Logout implements Action {
 
 export class LogoutSuccess implements Action {
     readonly type = AuthActionTypes.LogoutSuccess;
+}
+
+export class UpdateUser implements Action {
+    readonly type = AuthActionTypes.UpdateUser;
+
+    constructor(public payload: User) { }
 }
 
 export class Load implements Action {
@@ -124,7 +131,8 @@ export type AuthActions = Login |
     LoginSuccess |
     LoginFail |
     Logout |
-    LogoutSuccess;
+    LogoutSuccess |
+    UpdateUser;
 
 export type UserActions = Load |
     LoadSuccess |

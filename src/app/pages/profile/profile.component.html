@@ -1,26 +1,46 @@
-<div>
-    <div class="row g-3 align-items-center">
-        <div class="col-2">
-            <label for="name" class="col-form-label">Name</label>
-        </div>
-        <div class="col-10">
-            <div id="name">Test</div>
-        </div>
+<form [formGroup]="profileForm" (ngSubmit)="onSubmit()">
+    <div class="mb-3">
+        <label for="name" class="form-label">Name</label>
+        <input type="input" class="form-control" id="name" formControlName="name">
+
+        @if (profileForm.controls.name.invalid && (profileForm.controls.name.dirty || profileForm.controls.name.touched)) {
+            @if (profileForm.controls.name.errors?.['required']) {
+                <div class="form-text">Name is required.</div>
+            }
+        }
     </div>
-    <div class="row g-3 align-items-center">
-        <div class="col-2">
-            <label for="email" class="col-form-label">Email</label>
-        </div>
-        <div class="col-10">
-            <div id="email">Test</div>
-        </div>
+    <div class="mb-3">
+        <label for="email" class="form-label">Email</label>
+        <input type="email" class="form-control" id="email" formControlName="email">
+
+        @if (profileForm.controls.email.invalid && (profileForm.controls.email.dirty || profileForm.controls.email.touched)) {
+            @if (profileForm.controls.email.errors?.['required']) {
+                <div class="form-text">Email is required.</div>
+            }
+            @if (profileForm.controls.email.errors?.['email']) {
+                <div class="form-text">Email address is not valid.</div>
+            }
+        }
     </div>
-    <div class="row g-3 align-items-center">
-        <div class="col-2">
-            <label for="phone" class="col-form-label">Phone</label>
-        </div>
-        <div class="col-10">
-            <div id="phone">Test</div>
-        </div>
+    <div class="mb-3">
+        <label for="username" class="form-label">Username</label>
+        <input type="input" class="form-control" id="username" formControlName="username">
+
+        @if (profileForm.controls.username.invalid && (profileForm.controls.username.dirty || profileForm.controls.username.touched)) {
+            @if (profileForm.controls.username.errors?.['required']) {
+                <div class="form-text">Username is required.</div>
+            }
+        }
     </div>
-</div>
+    <div class="mb-3">
+        <label for="phone" class="form-label">Phone</label>
+        <input type="input" class="form-control" id="phone" formControlName="phone">
+
+        @if (profileForm.controls.phone.invalid && (profileForm.controls.phone.dirty || profileForm.controls.phone.touched)) {
+            @if (profileForm.controls.phone.errors?.['required']) {
+                <div class="form-text">phone is required.</div>
+            }
+        }
+    </div>
+    <button type="submit" class="btn btn-primary" [disabled]="profileForm.invalid">Update</button>
+</form>

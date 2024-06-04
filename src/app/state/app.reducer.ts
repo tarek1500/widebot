@@ -48,6 +48,11 @@ export function authReducer(state = authInitialState, action: AuthActions): Auth
                 ...state,
                 currentUser: null
             }
+        case AuthActionTypes.UpdateUser:
+            return {
+                ...state,
+                currentUser: action.payload
+            }
         default:
             return state;
     }
