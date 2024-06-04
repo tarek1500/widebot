@@ -17,6 +17,7 @@ import { User } from '../../data/user';
 })
 export class AdminComponent implements OnInit {
     users$?: Observable<User[]>;
+    isEdit = false;
     createForm = new FormGroup({
         name: new FormControl('', [Validators.required]),
         email: new FormControl('', [Validators.required, Validators.email]),
@@ -35,12 +36,46 @@ export class AdminComponent implements OnInit {
     }
 
     openCreateModal(content: TemplateRef<any>) {
+        this.isEdit = false;
+        this.createForm.patchValue({
+            name: '',
+            email: '',
+            username: '',
+            phone: ''
+        });
+
         this.modalService.open(content)
             .result
             .then(
                 result => {
                     this.store.dispatch(new appActions.Create({
                         id: 0,
+                        name: this.createForm.value.name!,
+                        email: this.createForm.value.email!,
+                        username: this.createForm.value.username!,
+                        phone: this.createForm.value.phone!,
+                        role: 'user'
+                    }));
+                },
+                reason => { }
+            );
+    }
+
+    openUpdateModal(content: TemplateRef<any>, user: User) {
+        this.isEdit = true;
+        this.createForm.patchValue({
+            name: user?.name,
+            email: user?.email,
+            username: user?.username,
+            phone: user?.phone
+        });
+
+        this.modalService.open(content)
+            .result
+            .then(
+                result => {
+                    this.store.dispatch(new appActions.Update({
+                        id: user.id,
                         name: this.createForm.value.name!,
                         email: this.createForm.value.email!,
                         username: this.createForm.value.username!,

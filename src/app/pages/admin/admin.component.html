@@ -4,7 +4,7 @@
 
     <ng-template #createModal let-modal>
         <div class="modal-header">
-            <h4 class="modal-title" id="modal-create-title">Create user</h4>
+            <h4 class="modal-title" id="modal-create-title">{{ isEdit ? 'Update' : 'Create' }} user</h4>
             <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
         </div>
         <div class="modal-body">
@@ -58,7 +58,7 @@
             </form>
         </div>
         <div class="modal-footer">
-            <button type="button" class="btn btn-primary" (click)="modal.close('Submit click')" [disabled]="createForm.invalid">Submit</button>
+            <button type="button" [class]="{'btn': true, 'btn-primary': !isEdit, 'btn-success': isEdit}" (click)="modal.close('Submit click')" [disabled]="createForm.invalid">Submit</button>
         </div>
     </ng-template>
 </div>
@@ -84,7 +84,7 @@
                         <td>{{ user.username }}</td>
                         <td>{{ user.phone }}</td>
                         <td>
-                            <button type="button" class="btn btn-success mx-1">Edit</button>
+                            <button type="button" class="btn btn-success mx-1" (click)="openUpdateModal(createModal, user)">Edit</button>
                             <button type="button" class="btn btn-danger mx-1">Delete</button>
                             <button type="button" class="btn btn-primary mx-1">View as</button>
                         </td>
