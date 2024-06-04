@@ -1,0 +1,8 @@
+@if (user$ | async; as user) {
+    @if (user.role === 'admin') {
+        <app-admin-home />
+    }
+    @else {
+        <app-user-home />
+    }
+}

@@ -1,6 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { Router, RouterModule, RouterOutlet } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 import { Store, select } from '@ngrx/store';
 import { Subject, takeUntil } from 'rxjs';
 import * as fromApp from './state';
@@ -10,7 +10,7 @@ import { User } from './data/user';
 @Component({
     selector: 'app-root',
     standalone: true,
-    imports: [CommonModule, RouterOutlet, RouterModule],
+    imports: [CommonModule, RouterModule],
     templateUrl: './app.component.html',
     styleUrl: './app.component.scss'
 })
