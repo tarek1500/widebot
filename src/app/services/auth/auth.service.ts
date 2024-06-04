@@ -14,16 +14,20 @@ export class AuthService {
 
         if (email === 'user@domain.com') {
             user = {
+                id: 1,
                 name: 'User',
                 email: 'user@domain.com',
+                username: 'user',
                 phone: '01112345',
                 role: 'user'
             };
         }
         else if (email === 'admin@domain.com') {
             user = {
+                id: 1,
                 name: 'Admin',
                 email: 'admin@domain.com',
+                username: 'admin',
                 phone: '01167890',
                 role: 'admin'
             };
