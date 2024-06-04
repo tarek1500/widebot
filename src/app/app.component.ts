@@ -23,7 +23,7 @@ export class AppComponent implements OnInit, OnDestroy {
     ngOnInit(): void {
         this.store.pipe(
             takeUntil(this.componentAlive$),
-            select(fromApp.getCurrentUser)
+            select(fromApp.getAuthCurrentUser)
         ).subscribe(user => {
             this.user = user;
 

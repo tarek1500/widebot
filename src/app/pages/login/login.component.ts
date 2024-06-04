@@ -27,14 +27,14 @@ export class LoginComponent implements OnInit, OnDestroy {
     ngOnInit(): void {
         this.store.pipe(
             takeUntil(this.componentAlive$),
-            select(fromApp.getCurrentUser)
+            select(fromApp.getAuthCurrentUser)
         ).subscribe(user => {
             if (user) {
                 localStorage.setItem('user', JSON.stringify(user));
                 this.router.navigate(['/']);
             }
         });
-        this.error$ = this.store.pipe(select(fromApp.getError));
+        this.error$ = this.store.pipe(select(fromApp.getAuthError));
     }
 
     ngOnDestroy(): void {

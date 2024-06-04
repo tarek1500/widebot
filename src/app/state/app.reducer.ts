@@ -1,17 +1,17 @@
-import { AuthActionTypes, UserActions } from './app.actions';
+import { AuthActionTypes, AuthActions } from './app.actions';
 import { User } from '../data/user';
 
-export interface UserState {
+export interface AuthState {
     currentUser: User | null;
     error: string;
 }
 
-const initialState: UserState = {
+const authInitialState: AuthState = {
     currentUser: null,
     error: ''
 };
 
-export function userReducer(state = initialState, action: UserActions): UserState {
+export function authReducer(state = authInitialState, action: AuthActions): AuthState {
     switch (action.type) {
         case AuthActionTypes.LoginSuccess:
             return {
