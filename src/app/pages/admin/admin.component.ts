@@ -86,4 +86,15 @@ export class AdminComponent implements OnInit {
                 reason => { }
             );
     }
+
+    openDeleteModal(content: TemplateRef<any>, id: number) {
+        this.modalService.open(content)
+            .result
+            .then(
+                result => {
+                    this.store.dispatch(new appActions.Delete(id))
+                },
+                reason => { }
+            );
+    }
 }
