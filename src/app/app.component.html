@@ -10,9 +10,11 @@
                     <a [routerLink]="['/']" class="nav-link" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">Home</a>
                 </li>
                 @if (user) {
-                    <li class="nav-item">
-                        <a [routerLink]="['/profile']" class="nav-link" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">Profile</a>
-                    </li>
+                    @if (user.role === 'user') {
+                        <li class="nav-item">
+                            <a [routerLink]="['/profile']" class="nav-link" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">Profile</a>
+                        </li>
+                    }
                     @if (user.role === 'admin') {
                         <li class="nav-item">
                             <a [routerLink]="['/admin']" class="nav-link" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">Admin</a>

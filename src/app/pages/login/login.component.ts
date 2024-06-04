@@ -31,7 +31,13 @@ export class LoginComponent implements OnInit, OnDestroy {
         ).subscribe(user => {
             if (user) {
                 localStorage.setItem('user', JSON.stringify(user));
-                this.router.navigate(['/']);
+
+                if (user.role === 'admin') {
+                    this.router.navigate(['/admin']);
+                }
+                else {
+                    this.router.navigate(['/profile']);
+                }
             }
         });
         this.error$ = this.store.pipe(select(fromApp.getAuthError));
