@@ -39,3 +39,8 @@ export const getUpdateError = createSelector(
     getUserFeatureState,
     state => state.updateError
 );
+
+export const getDeleteError = createSelector(
+    getUserFeatureState,
+    state => state.deleteError
+);

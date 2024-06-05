@@ -15,7 +15,6 @@ export interface UserState {
     users: User[];
     loadError: string;
     createError: string;
-    getError: string;
     updateError: string;
     deleteError: string;
 }
@@ -24,7 +23,6 @@ const userInitialState: UserState = {
     users: [],
     loadError: '',
     createError: '',
-    getError: '',
     updateError: '',
     deleteError: ''
 };

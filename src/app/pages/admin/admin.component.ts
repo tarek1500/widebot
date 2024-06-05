@@ -2,7 +2,7 @@ import { Component, OnInit, TemplateRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Store, select } from '@ngrx/store';
-import { Observable } from 'rxjs';
+import { Observable, merge } from 'rxjs';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import * as fromApp from '../../state';
 import * as appActions from '../../state/app.actions';
@@ -30,7 +30,12 @@ export class AdminComponent implements OnInit {
 
     ngOnInit(): void {
         this.users$ = this.store.pipe(select(fromApp.getUsers));
-        this.error$ = this.store.pipe(select(fromApp.getLoadError));
+        this.error$ = merge(
+            this.store.pipe(select(fromApp.getLoadError)),
+            this.store.pipe(select(fromApp.getCreateError)),
+            this.store.pipe(select(fromApp.getUpdateError)),
+            this.store.pipe(select(fromApp.getDeleteError))
+        );
 
         this.store.dispatch(new appActions.Load);
     }
