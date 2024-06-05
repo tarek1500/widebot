@@ -30,6 +30,8 @@ export class LoginComponent implements OnInit, OnDestroy {
             select(fromApp.getAuthCurrentUser)
         ).subscribe(user => {
             if (user) {
+                this.store.dispatch(new appActions.Hide);
+
                 localStorage.setItem('user', JSON.stringify(user));
 
                 if (user.role === 'admin') {
@@ -50,6 +52,7 @@ export class LoginComponent implements OnInit, OnDestroy {
 
     onSubmit() {
         if (this.loginForm.valid) {
+            this.store.dispatch(new appActions.Show);
             this.store.dispatch(new appActions.Login({
                 email: this.loginForm.value.email!,
                 password: this.loginForm.value.password!

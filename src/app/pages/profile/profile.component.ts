@@ -30,6 +30,8 @@ export class ProfileComponent implements OnInit, OnDestroy {
             takeUntil(this.componentAlive$),
             select(fromApp.getAuthCurrentUser)
         ).subscribe(user => {
+            this.store.dispatch(new appActions.Hide);
+
             this.user = user!;
             this.profileForm.patchValue({
                 name: user?.name,
@@ -47,6 +49,7 @@ export class ProfileComponent implements OnInit, OnDestroy {
 
     onSubmit() {
         if (this.profileForm.valid) {
+            this.store.dispatch(new appActions.Show);
             this.store.dispatch(new appActions.UpdateUser({
                 id: this.user?.id!,
                 name: this.profileForm.value.name!,

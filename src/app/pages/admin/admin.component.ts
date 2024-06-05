@@ -1,8 +1,8 @@
-import { Component, OnInit, TemplateRef } from '@angular/core';
+import { Component, OnDestroy, OnInit, TemplateRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Store, select } from '@ngrx/store';
-import { Observable, merge } from 'rxjs';
+import { Observable, Subject, merge, takeUntil } from 'rxjs';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import * as fromApp from '../../state';
 import * as appActions from '../../state/app.actions';
@@ -15,8 +15,9 @@ import { User } from '../../data/user';
     templateUrl: './admin.component.html',
     styleUrl: './admin.component.scss'
 })
-export class AdminComponent implements OnInit {
-    users$?: Observable<User[]>;
+export class AdminComponent implements OnInit, OnDestroy {
+    componentAlive$ = new Subject;
+    users?: User[];
     isEdit = false;
     createForm = new FormGroup({
         name: new FormControl('', [Validators.required]),
@@ -29,7 +30,14 @@ export class AdminComponent implements OnInit {
     constructor(private store: Store<fromApp.State>, private modalService: NgbModal) { }
 
     ngOnInit(): void {
-        this.users$ = this.store.pipe(select(fromApp.getUsers));
+        this.store.pipe(
+            takeUntil(this.componentAlive$),
+            select(fromApp.getUsers)
+        ).subscribe(users => {
+            this.store.dispatch(new appActions.Hide);
+
+            this.users = users;
+        });
         this.error$ = merge(
             this.store.pipe(select(fromApp.getLoadError)),
             this.store.pipe(select(fromApp.getCreateError)),
@@ -37,7 +45,13 @@ export class AdminComponent implements OnInit {
             this.store.pipe(select(fromApp.getDeleteError))
         );
 
+        this.store.dispatch(new appActions.Show);
         this.store.dispatch(new appActions.Load);
+    }
+
+    ngOnDestroy(): void {
+        this.componentAlive$.next(null);
+        this.componentAlive$.complete();
     }
 
     openCreateModal(content: TemplateRef<any>) {
@@ -53,6 +67,7 @@ export class AdminComponent implements OnInit {
             .result
             .then(
                 result => {
+                    this.store.dispatch(new appActions.Show);
                     this.store.dispatch(new appActions.Create({
                         id: 0,
                         name: this.createForm.value.name!,
@@ -79,6 +94,7 @@ export class AdminComponent implements OnInit {
             .result
             .then(
                 result => {
+                    this.store.dispatch(new appActions.Show);
                     this.store.dispatch(new appActions.Update({
                         id: user.id,
                         name: this.createForm.value.name!,
@@ -97,6 +113,7 @@ export class AdminComponent implements OnInit {
             .result
             .then(
                 result => {
+                    this.store.dispatch(new appActions.Show);
                     this.store.dispatch(new appActions.Delete(id))
                 },
                 reason => { }
