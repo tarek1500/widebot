@@ -32,8 +32,6 @@ export class LoginComponent implements OnInit, OnDestroy {
             if (user) {
                 this.store.dispatch(new appActions.Hide);
 
-                localStorage.setItem('user', JSON.stringify(user));
-
                 if (user.role === 'admin') {
                     this.router.navigate(['/admin']);
                 }

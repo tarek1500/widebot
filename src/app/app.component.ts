@@ -43,7 +43,6 @@ export class AppComponent implements OnInit, OnDestroy {
             if (!user) {
                 this.store.dispatch(new appActions.Hide);
 
-                localStorage.removeItem('user');
                 this.router.navigate(['login']);
             }
         });
