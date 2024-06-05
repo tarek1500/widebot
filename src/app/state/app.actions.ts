@@ -25,6 +25,11 @@ export enum UserActionTypes {
     DeleteFail = '[User] Delete Fail'
 }
 
+export enum SpinnerActionTypes {
+    Show = '[Spinner] Show',
+    Hide = '[Spinner] Hide'
+}
+
 export class Login implements Action {
     readonly type = AuthActionTypes.Login;
 
@@ -127,6 +132,14 @@ export class DeleteFail implements Action {
     constructor(public payload: string) { }
 }
 
+export class Show implements Action {
+    readonly type = SpinnerActionTypes.Show;
+}
+
+export class Hide implements Action {
+    readonly type = SpinnerActionTypes.Hide;
+}
+
 export type AuthActions = Login |
     LoginSuccess |
     LoginFail |
@@ -146,3 +159,6 @@ export type UserActions = Load |
     Delete |
     DeleteSuccess |
     DeleteFail;
+
+export type SpinnerActions = Show |
+    Hide;

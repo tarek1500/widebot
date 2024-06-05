@@ -1,4 +1,4 @@
-import { AuthActionTypes, AuthActions, UserActionTypes, UserActions } from './app.actions';
+import { AuthActionTypes, AuthActions, SpinnerActionTypes, SpinnerActions, UserActionTypes, UserActions } from './app.actions';
 import { User } from '../data/user';
 
 export interface AuthState {
@@ -25,6 +25,14 @@ const userInitialState: UserState = {
     createError: '',
     updateError: '',
     deleteError: ''
+};
+
+export interface SpinnerState {
+    show: boolean
+}
+
+const spinnerInitialState: SpinnerState = {
+    show: false
 };
 
 export function authReducer(state = authInitialState, action: AuthActions): AuthState {
@@ -111,6 +119,23 @@ export function userReducer(state = userInitialState, action: UserActions): User
             return {
                 ...state,
                 deleteError: action.payload
+            };
+        default:
+            return state;
+    }
+}
+
+export function spinnerReducer(state = spinnerInitialState, action: SpinnerActions): SpinnerState {
+    switch (action.type) {
+        case SpinnerActionTypes.Show:
+            return {
+                ...state,
+                show: true
+            };
+        case SpinnerActionTypes.Hide:
+            return {
+                ...state,
+                show: false
             };
         default:
             return state;

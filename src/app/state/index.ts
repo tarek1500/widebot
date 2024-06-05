@@ -1,9 +1,10 @@
 import { createFeatureSelector, createSelector } from '@ngrx/store';
-import { AuthState, UserState } from './app.reducer';
+import { AuthState, SpinnerState, UserState } from './app.reducer';
 
 export interface State {
     auth: AuthState,
-    user: UserState
+    user: UserState,
+    spinner: SpinnerState
 }
 
 const getAuthFeatureState = createFeatureSelector<AuthState>('auth');
@@ -43,4 +44,11 @@ export const getUpdateError = createSelector(
 export const getDeleteError = createSelector(
     getUserFeatureState,
     state => state.deleteError
+);
+
+const getSpinnerFeatureState = createFeatureSelector<SpinnerState>('spinner');
+
+export const getShow = createSelector(
+    getSpinnerFeatureState,
+    state => state.show
 );
