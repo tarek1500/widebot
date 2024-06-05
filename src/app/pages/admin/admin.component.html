@@ -82,7 +82,7 @@
                     <td>
                         <button type="button" class="btn btn-success mx-1" (click)="openUpdateModal(createModal, user)">Edit</button>
                         <button type="button" class="btn btn-danger mx-1" (click)="openDeleteModal(deleteModal, user.id)">Delete</button>
-                        <button type="button" class="btn btn-primary mx-1">View as</button>
+                        <a class="btn btn-primary mx-1" [href]="buildUserQuery(user)" target="_blank">View as</a>
                     </td>
                 </tr>
             }

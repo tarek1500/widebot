@@ -54,6 +54,12 @@ export class AdminComponent implements OnInit, OnDestroy {
         this.componentAlive$.complete();
     }
 
+    buildUserQuery(user: User) {
+        let query = `name=${user.name}&email=${user.email}&username=${user.username}&phone=${user.phone}`;
+
+        return `/?${query}`;
+    }
+
     openCreateModal(content: TemplateRef<any>) {
         this.isEdit = false;
         this.createForm.patchValue({
