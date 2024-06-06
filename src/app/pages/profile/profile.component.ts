@@ -2,8 +2,9 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Store, select } from '@ngrx/store';
 import { Subject, takeUntil } from 'rxjs';
-import * as fromApp from '../../state';
-import * as appActions from '../../state/app.actions';
+import * as AuthActions from '../../store/auth/auth.actions';
+import * as AuthSelectors from '../../store/auth/auth.selectors';
+import * as SpinnerActions from '../../store/spinner/spinner.actions';
 import { User } from '../../data/user';
 
 @Component({
@@ -23,14 +24,14 @@ export class ProfileComponent implements OnInit, OnDestroy {
         phone: new FormControl('', [Validators.required])
     });
 
-    constructor(private store: Store<fromApp.State>) { }
+    constructor(private store: Store) { }
 
     ngOnInit(): void {
         this.store.pipe(
             takeUntil(this.componentAlive$),
-            select(fromApp.getAuthCurrentUser)
+            select(AuthSelectors.selectCurrentUser)
         ).subscribe(user => {
-            this.store.dispatch(new appActions.Hide);
+            this.store.dispatch(SpinnerActions.hideSpinner());
 
             this.user = user!;
             this.profileForm.patchValue({
@@ -49,14 +50,16 @@ export class ProfileComponent implements OnInit, OnDestroy {
 
     onSubmit() {
         if (this.profileForm.valid) {
-            this.store.dispatch(new appActions.Show);
-            this.store.dispatch(new appActions.UpdateUser({
-                id: this.user?.id!,
-                name: this.profileForm.value.name!,
-                email: this.profileForm.value.email!,
-                username: this.profileForm.value.username!,
-                phone: this.profileForm.value.phone!,
-                role: this.user?.role!
+            this.store.dispatch(SpinnerActions.showSpinner());
+            this.store.dispatch(AuthActions.updateUser({
+                user: {
+                    id: this.user?.id!,
+                    name: this.profileForm.value.name!,
+                    email: this.profileForm.value.email!,
+                    username: this.profileForm.value.username!,
+                    phone: this.profileForm.value.phone!,
+                    role: this.user?.role!
+                }
             }));
         }
     }

@@ -4,8 +4,10 @@ import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { Store, select } from '@ngrx/store';
 import { Subject, skip, takeUntil } from 'rxjs';
 import { NgxSpinnerModule, NgxSpinnerService } from 'ngx-spinner';
-import * as fromApp from './state';
-import * as appActions from './state/app.actions';
+import * as AuthActions from './store/auth/auth.actions';
+import * as AuthSelectors from './store/auth/auth.selectors';
+import * as SpinnerActions from './store/spinner/spinner.actions';
+import * as SpinnerSelectors from './store/spinner/spinner.selectors';
 import { User } from './data/user';
 
 @Component({
@@ -16,15 +18,16 @@ import { User } from './data/user';
     styleUrl: './app.component.scss'
 })
 export class AppComponent implements OnInit, OnDestroy {
+    title = 'widebot';
     componentAlive$ = new Subject;
     user?: User | null;
 
-    constructor(private store: Store<fromApp.State>, private route: ActivatedRoute, private router: Router, private spinner: NgxSpinnerService) { }
+    constructor(private store: Store, private route: ActivatedRoute, private router: Router, private spinner: NgxSpinnerService) { }
 
     ngOnInit(): void {
         this.store.pipe(
             takeUntil(this.componentAlive$),
-            select(fromApp.getShow)
+            select(SpinnerSelectors.selectShow)
         ).subscribe(show => {
             if (show) {
                 this.spinner.show();
@@ -49,7 +52,7 @@ export class AppComponent implements OnInit, OnDestroy {
                     phone: phone,
                     role: 'user'
                 };
-                this.store.dispatch(new appActions.LoginSuccess(user));
+                this.store.dispatch(AuthActions.loginSuccess({ user }));
                 this.router.navigate(['/profile'], {
                     queryParams: {
                         name: user.name,
@@ -64,12 +67,12 @@ export class AppComponent implements OnInit, OnDestroy {
         this.store.pipe(
             takeUntil(this.componentAlive$),
             skip(1),
-            select(fromApp.getAuthCurrentUser)
+            select(AuthSelectors.selectCurrentUser)
         ).subscribe(user => {
             this.user = user;
 
             if (!user) {
-                this.store.dispatch(new appActions.Hide);
+                this.store.dispatch(SpinnerActions.hideSpinner());
 
                 this.router.navigate(['login']);
             }
@@ -84,7 +87,7 @@ export class AppComponent implements OnInit, OnDestroy {
     logout(event: MouseEvent) {
         event.preventDefault();
 
-        this.store.dispatch(new appActions.Show);
-        this.store.dispatch(new appActions.Logout);
+        this.store.dispatch(SpinnerActions.showSpinner());
+        this.store.dispatch(AuthActions.logout());
     }
 }

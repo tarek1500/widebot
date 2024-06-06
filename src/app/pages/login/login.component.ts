@@ -4,8 +4,9 @@ import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angula
 import { Store, select } from '@ngrx/store';
 import { Router } from '@angular/router';
 import { Observable, Subject, takeUntil } from 'rxjs';
-import * as fromApp from '../../state';
-import * as appActions from '../../state/app.actions';
+import * as AuthActions from '../../store/auth/auth.actions';
+import * as AuthSelectors from '../../store/auth/auth.selectors';
+import * as SpinnerActions from '../../store/spinner/spinner.actions';
 
 @Component({
     selector: 'app-login',
@@ -22,15 +23,15 @@ export class LoginComponent implements OnInit, OnDestroy {
     });
     error$?: Observable<string>;
 
-    constructor(private store: Store<fromApp.State>, private router: Router) { }
+    constructor(private store: Store, private router: Router) { }
 
     ngOnInit(): void {
         this.store.pipe(
             takeUntil(this.componentAlive$),
-            select(fromApp.getAuthCurrentUser)
+            select(AuthSelectors.selectCurrentUser)
         ).subscribe(user => {
             if (user) {
-                this.store.dispatch(new appActions.Hide);
+                this.store.dispatch(SpinnerActions.hideSpinner());
 
                 if (user.role === 'admin') {
                     this.router.navigate(['/admin']);
@@ -40,7 +41,7 @@ export class LoginComponent implements OnInit, OnDestroy {
                 }
             }
         });
-        this.error$ = this.store.pipe(select(fromApp.getAuthError));
+        this.error$ = this.store.pipe(select(AuthSelectors.selectError));
     }
 
     ngOnDestroy(): void {
@@ -50,8 +51,8 @@ export class LoginComponent implements OnInit, OnDestroy {
 
     onSubmit() {
         if (this.loginForm.valid) {
-            this.store.dispatch(new appActions.Show);
-            this.store.dispatch(new appActions.Login({
+            this.store.dispatch(SpinnerActions.showSpinner());
+            this.store.dispatch(AuthActions.login({
                 email: this.loginForm.value.email!,
                 password: this.loginForm.value.password!
             }));

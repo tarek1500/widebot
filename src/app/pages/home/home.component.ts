@@ -4,7 +4,7 @@ import { Store, select } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { AdminHomeComponent } from '../../components/admin-home/admin-home.component';
 import { UserHomeComponent } from '../../components/user-home/user-home.component';
-import * as fromApp from '../../state';
+import * as AuthSelectors from '../../store/auth/auth.selectors';
 import { User } from '../../data/user';
 
 @Component({
@@ -17,9 +17,9 @@ import { User } from '../../data/user';
 export class HomeComponent implements OnInit {
     user$?: Observable<User | null>;
 
-    constructor(private store: Store<fromApp.State>) { }
+    constructor(private store: Store) { }
 
     ngOnInit(): void {
-        this.user$ = this.store.pipe(select(fromApp.getAuthCurrentUser));
+        this.user$ = this.store.pipe(select(AuthSelectors.selectCurrentUser));
     }
 }

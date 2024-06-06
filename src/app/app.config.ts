@@ -6,8 +6,11 @@ import { provideState, provideStore } from '@ngrx/store';
 import { provideEffects } from '@ngrx/effects';
 import { provideStoreDevtools } from '@ngrx/store-devtools';
 import { routes } from './app.routes';
-import { authReducer, spinnerReducer, userReducer } from './state/app.reducer';
-import { UserEffects } from './state/app.effects';
+import { reducer as AuthReducer } from './store/auth/auth.reducer';
+import { AuthEffects } from './store/auth/auth.effects';
+import { reducer as SpinnerReducer } from './store/spinner/spinner.reducer';
+import { reducer as UserReducer } from './store/user/user.reducer';
+import { UserEffects } from './store/user/user.effects';
 
 export const appConfig: ApplicationConfig = {
     providers: [
@@ -15,10 +18,10 @@ export const appConfig: ApplicationConfig = {
         provideHttpClient(),
         provideAnimations(),
         provideStore(),
-        provideState('auth', authReducer),
-        provideState('users', userReducer),
-        provideState('spinner', spinnerReducer),
-        provideEffects([UserEffects]),
+        provideState('auth', AuthReducer),
+        provideState('spinner', SpinnerReducer),
+        provideState('user', UserReducer),
+        provideEffects([AuthEffects, UserEffects]),
         provideStoreDevtools({ maxAge: 25, logOnly: !isDevMode() })
     ]
 };

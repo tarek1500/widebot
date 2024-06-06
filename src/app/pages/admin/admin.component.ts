@@ -4,8 +4,9 @@ import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angula
 import { Store, select } from '@ngrx/store';
 import { Observable, Subject, merge, takeUntil } from 'rxjs';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import * as fromApp from '../../state';
-import * as appActions from '../../state/app.actions';
+import * as UserActions from '../../store/user/user.actions';
+import * as UserSelectors from '../../store/user/user.selectors';
+import * as SpinnerActions from '../../store/spinner/spinner.actions';
 import { User } from '../../data/user';
 
 @Component({
@@ -27,26 +28,26 @@ export class AdminComponent implements OnInit, OnDestroy {
     });
     error$?: Observable<string>;
 
-    constructor(private store: Store<fromApp.State>, private modalService: NgbModal) { }
+    constructor(private store: Store, private modalService: NgbModal) { }
 
     ngOnInit(): void {
         this.store.pipe(
             takeUntil(this.componentAlive$),
-            select(fromApp.getUsers)
+            select(UserSelectors.selectUsers)
         ).subscribe(users => {
-            this.store.dispatch(new appActions.Hide);
+            this.store.dispatch(SpinnerActions.hideSpinner());
 
             this.users = users;
         });
         this.error$ = merge(
-            this.store.pipe(select(fromApp.getLoadError)),
-            this.store.pipe(select(fromApp.getCreateError)),
-            this.store.pipe(select(fromApp.getUpdateError)),
-            this.store.pipe(select(fromApp.getDeleteError))
+            this.store.pipe(select(UserSelectors.selectLoadError)),
+            this.store.pipe(select(UserSelectors.selectCreateError)),
+            this.store.pipe(select(UserSelectors.selectUpdateError)),
+            this.store.pipe(select(UserSelectors.selectDeleteError))
         );
 
-        this.store.dispatch(new appActions.Show);
-        this.store.dispatch(new appActions.Load);
+        this.store.dispatch(SpinnerActions.showSpinner());
+        this.store.dispatch(UserActions.loadUsers());
     }
 
     ngOnDestroy(): void {
@@ -73,14 +74,16 @@ export class AdminComponent implements OnInit, OnDestroy {
             .result
             .then(
                 result => {
-                    this.store.dispatch(new appActions.Show);
-                    this.store.dispatch(new appActions.Create({
-                        id: 0,
-                        name: this.createForm.value.name!,
-                        email: this.createForm.value.email!,
-                        username: this.createForm.value.username!,
-                        phone: this.createForm.value.phone!,
-                        role: 'user'
+                    this.store.dispatch(SpinnerActions.showSpinner());
+                    this.store.dispatch(UserActions.createUser({
+                        user: {
+                            id: 0,
+                            name: this.createForm.value.name!,
+                            email: this.createForm.value.email!,
+                            username: this.createForm.value.username!,
+                            phone: this.createForm.value.phone!,
+                            role: 'user'
+                        }
                     }));
                 },
                 reason => { }
@@ -100,14 +103,16 @@ export class AdminComponent implements OnInit, OnDestroy {
             .result
             .then(
                 result => {
-                    this.store.dispatch(new appActions.Show);
-                    this.store.dispatch(new appActions.Update({
-                        id: user.id,
-                        name: this.createForm.value.name!,
-                        email: this.createForm.value.email!,
-                        username: this.createForm.value.username!,
-                        phone: this.createForm.value.phone!,
-                        role: 'user'
+                    this.store.dispatch(SpinnerActions.showSpinner());
+                    this.store.dispatch(UserActions.updateUser({
+                        user: {
+                            id: user.id,
+                            name: this.createForm.value.name!,
+                            email: this.createForm.value.email!,
+                            username: this.createForm.value.username!,
+                            phone: this.createForm.value.phone!,
+                            role: 'user'
+                        }
                     }));
                 },
                 reason => { }
@@ -119,8 +124,8 @@ export class AdminComponent implements OnInit, OnDestroy {
             .result
             .then(
                 result => {
-                    this.store.dispatch(new appActions.Show);
-                    this.store.dispatch(new appActions.Delete(id))
+                    this.store.dispatch(SpinnerActions.showSpinner());
+                    this.store.dispatch(UserActions.deleteUser({ id }))
                 },
                 reason => { }
             );
