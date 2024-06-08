@@ -31,6 +31,7 @@ To get more help on the Angular CLI use `ng help` or go check out the [Angular C
 
 ## Guide
 
+After cloning the project, run `npm install` to install all the dependencies.\
 After running the development server, you can click on **login** on the top right corner to go through the app.
 
 ### Credentials
