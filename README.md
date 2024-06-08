@@ -25,3 +25,21 @@ Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To u
 ## Further help
 
 To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+
+
+## Guide
+
+After running the development server, you can click on **login** on the top right corner to go through the app.
+
+### Credentials
+For admin:\
+Email: admin@domain.com\
+Password: 1234
+
+For user:\
+Email: user@domain.com\
+Password: 1234
+
+After login you will redirect to **admin** page for admin, or will redirect to **profile** page for user.
+
+In admin page, you can add, edit, delete or view as users. And in profile page, you can update the logged in user profile.
