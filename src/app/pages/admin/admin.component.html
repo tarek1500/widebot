@@ -1,61 +1,66 @@
 <div class="d-flex justify-content-between mb-1">
     <div class="error">{{ error$ | async }}</div>
-    <button type="button" class="add btn btn-primary" (click)="openCreateModal(createModal)">Add</button>
+    <button i18n type="button" class="add btn btn-primary" (click)="openCreateModal(createModal)">Add</button>
 
     <ng-template #createModal let-modal>
         <div class="modal-header">
-            <h4 class="modal-title" id="modal-create-title">{{ isEdit ? 'Update' : 'Create' }} user</h4>
+            @if (isEdit) {
+                <h4 i18n class="modal-title" id="modal-create-title">Update user</h4>
+            }
+            @else {
+                <h4 i18n class="modal-title" id="modal-create-title">Create user</h4>
+            }
             <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
         </div>
         <div class="modal-body">
             <form [formGroup]="createForm">
                 <div class="mb-3">
-                    <label for="name" class="form-label">Name</label>
+                    <label i18n for="name" class="form-label">Name</label>
                     <input type="input" class="form-control" id="name" formControlName="name">
 
                     @if (createForm.controls.name.invalid && (createForm.controls.name.dirty || createForm.controls.name.touched)) {
                         @if (createForm.controls.name.errors?.['required']) {
-                            <div class="form-text">Name is required.</div>
+                            <div i18n class="form-text">Name is required.</div>
                         }
                     }
                 </div>
                 <div class="mb-3">
-                    <label for="email" class="form-label">Email</label>
+                    <label i18n for="email" class="form-label">Email</label>
                     <input type="email" class="form-control" id="email" formControlName="email">
 
                     @if (createForm.controls.email.invalid && (createForm.controls.email.dirty || createForm.controls.email.touched)) {
                         @if (createForm.controls.email.errors?.['required']) {
-                            <div class="form-text">Email is required.</div>
+                            <div i18n class="form-text">Email is required.</div>
                         }
                         @if (createForm.controls.email.errors?.['email']) {
-                            <div class="form-text">Email address is not valid.</div>
+                            <div i18n class="form-text">Email address is not valid.</div>
                         }
                     }
                 </div>
                 <div class="mb-3">
-                    <label for="username" class="form-label">Username</label>
+                    <label i18n for="username" class="form-label">Username</label>
                     <input type="input" class="form-control" id="username" formControlName="username">
 
                     @if (createForm.controls.username.invalid && (createForm.controls.username.dirty || createForm.controls.username.touched)) {
                         @if (createForm.controls.username.errors?.['required']) {
-                            <div class="form-text">Username is required.</div>
+                            <div i18n class="form-text">Username is required.</div>
                         }
                     }
                 </div>
                 <div class="mb-3">
-                    <label for="phone" class="form-label">Phone</label>
+                    <label i18n for="phone" class="form-label">Phone</label>
                     <input type="input" class="form-control" id="phone" formControlName="phone">
 
                     @if (createForm.controls.phone.invalid && (createForm.controls.phone.dirty || createForm.controls.phone.touched)) {
                         @if (createForm.controls.phone.errors?.['required']) {
-                            <div class="form-text">phone is required.</div>
+                            <div i18n class="form-text">Phone is required.</div>
                         }
                     }
                 </div>
             </form>
         </div>
         <div class="modal-footer">
-            <button type="button" [class]="{'btn': true, 'btn-primary': !isEdit, 'btn-success': isEdit}" (click)="modal.close('Submit click')" [disabled]="createForm.invalid">Submit</button>
+            <button i18n type="button" [class]="{'btn': true, 'btn-primary': !isEdit, 'btn-success': isEdit}" (click)="modal.close('Submit click')" [disabled]="createForm.invalid">Submit</button>
         </div>
     </ng-template>
 </div>
@@ -64,12 +69,12 @@
         <table class="table table-bordered table-striped table-hover">
             <thead>
                 <tr>
-                    <th scope="col">ID</th>
-                    <th scope="col">Name</th>
-                    <th scope="col">Email</th>
-                    <th scope="col">Username</th>
-                    <th scope="col">Phone</th>
-                    <th scope="col">Options</th>
+                    <th i18n scope="col">ID</th>
+                    <th i18n scope="col">Name</th>
+                    <th i18n scope="col">Email</th>
+                    <th i18n scope="col">Username</th>
+                    <th i18n scope="col">Phone</th>
+                    <th i18n scope="col">Options</th>
                 </tr>
             </thead>
             <tbody>
@@ -81,9 +86,9 @@
                         <td>{{ user.username }}</td>
                         <td>{{ user.phone }}</td>
                         <td class="options">
-                            <button type="button" class="btn btn-success mx-1 my-1" (click)="openUpdateModal(createModal, user)">Edit</button>
-                            <button type="button" class="btn btn-danger mx-1 my-1" (click)="openDeleteModal(deleteModal, user.id)">Delete</button>
-                            <a class="btn btn-primary mx-1 my-1" [href]="buildUserQuery(user)" target="_blank">View as</a>
+                            <button i18n type="button" class="btn btn-success mx-1 my-1" (click)="openUpdateModal(createModal, user)">Edit</button>
+                            <button i18n type="button" class="btn btn-danger mx-1 my-1" (click)="openDeleteModal(deleteModal, user.id)">Delete</button>
+                            <a i18n class="btn btn-primary mx-1 my-1" [href]="buildUserQuery(user)" target="_blank">View as</a>
                         </td>
                     </tr>
                 }
@@ -93,14 +98,12 @@
 
     <ng-template #deleteModal let-modal>
         <div class="modal-header">
-            <h4 class="modal-title" id="modal-delete-title">Delete user</h4>
+            <h4 i18n class="modal-title" id="modal-delete-title">Delete user</h4>
             <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
         </div>
-        <div class="modal-body">
-            Are you sure you want to delete this user?
-        </div>
+        <div i18n class="modal-body">Are you sure you want to delete this user?</div>
         <div class="modal-footer">
-            <button type="button" class="btn btn-danger" (click)="modal.close('Delete click')">Delete</button>
+            <button i18n type="button" class="btn btn-danger" (click)="modal.close('Delete click')">Delete</button>
         </div>
     </ng-template>
 }

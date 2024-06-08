@@ -4,6 +4,15 @@
   "newProjectRoot": "projects",
   "projects": {
     "widebot": {
+      "i18n": {
+        "sourceLocale": "en-US",
+        "locales": {
+          "ar": {
+            "translation": "src/locale/messages.ar.json",
+            "baseHref": "ar"
+          }
+        }
+      },
       "projectType": "application",
       "schematics": {
         "@schematics/angular:component": {
@@ -33,7 +42,8 @@
               "node_modules/ngx-spinner/animations/ball-spin.css",
               "src/styles.scss"
             ],
-            "scripts": []
+            "scripts": [],
+            "localize": true
           },
           "configurations": {
             "production": {
@@ -55,6 +65,9 @@
               "optimization": false,
               "extractLicenses": false,
               "sourceMap": true
+            },
+            "ar": {
+              "localize": ["ar"]
             }
           },
           "defaultConfiguration": "production"
@@ -67,6 +80,9 @@
             },
             "development": {
               "buildTarget": "widebot:build:development"
+            },
+            "ar": {
+              "buildTarget": "widebot:build:development,ar"
             }
           },
           "defaultConfiguration": "development"

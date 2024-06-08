@@ -1,24 +1,24 @@
 <nav class="navbar navbar-expand-lg bg-body-tertiary">
     <div class="container-fluid">
-        <a class="navbar-brand" href="#">User Management</a>
+        <a i18n class="navbar-brand" href="#">Users Management</a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" [attr.aria-expanded]="!isNavCollapsed" aria-label="Toggle navigation" (click)="isNavCollapsed = !isNavCollapsed">
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbar" [ngbCollapse]="isNavCollapsed">
-            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+            <ul class="navbar-nav first-nav mb-2 mb-lg-0">
                 @if (user) {
                     <li class="nav-item">
-                        <a [routerLink]="['/home']" class="nav-link" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">Home</a>
+                        <a i18n [routerLink]="['/home']" class="nav-link" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">Home</a>
                     </li>
 
                     @if (user.role === 'user') {
                         <li class="nav-item">
-                            <a [routerLink]="['/profile']" class="nav-link" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">Profile</a>
+                            <a i18n [routerLink]="['/profile']" class="nav-link" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">Profile</a>
                         </li>
                     }
                     @if (user.role === 'admin') {
                         <li class="nav-item">
-                            <a [routerLink]="['/admin']" class="nav-link" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">Admin</a>
+                            <a i18n [routerLink]="['/admin']" class="nav-link" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">Admin</a>
                         </li>
                     }
                 }
@@ -26,12 +26,12 @@
             <ul class="navbar-nav" role="search">
                 @if (user) {
                     <li class="nav-item">
-                        <a class="nav-link" href="#logout" (click)="logout($event)">Logout</a>
+                        <a i18n class="nav-link" href="#logout" (click)="logout($event)">Logout</a>
                     </li>
                 }
                 @else {
                     <li class="nav-item">
-                        <a [routerLink]="['/login']" class="nav-link" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">Login</a>
+                        <a i18n [routerLink]="['/login']" class="nav-link" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">Login</a>
                     </li>
                 }
             </ul>
