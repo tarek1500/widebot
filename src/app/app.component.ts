@@ -18,7 +18,6 @@ import { User } from './data/user';
     styleUrl: './app.component.scss'
 })
 export class AppComponent implements OnInit, OnDestroy {
-    title = 'widebot';
     componentAlive$ = new Subject;
     user?: User | null;
 

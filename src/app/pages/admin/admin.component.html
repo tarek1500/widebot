@@ -1,6 +1,6 @@
 <div class="d-flex justify-content-between mb-1">
     <div class="error">{{ error$ | async }}</div>
-    <button type="button" class="btn btn-primary" (click)="openCreateModal(createModal)">Add</button>
+    <button type="button" class="add btn btn-primary" (click)="openCreateModal(createModal)">Add</button>
 
     <ng-template #createModal let-modal>
         <div class="modal-header">
@@ -59,7 +59,7 @@
         </div>
     </ng-template>
 </div>
-@if (users!.length > 0) {
+@if (users.length > 0) {
     <table class="table table-bordered table-striped table-hover">
         <thead>
             <tr>

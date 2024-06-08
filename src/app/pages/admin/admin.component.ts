@@ -18,7 +18,7 @@ import { User } from '../../data/user';
 })
 export class AdminComponent implements OnInit, OnDestroy {
     componentAlive$ = new Subject;
-    users?: User[];
+    users: User[] = [];
     isEdit = false;
     createForm = new FormGroup({
         name: new FormControl('', [Validators.required]),
