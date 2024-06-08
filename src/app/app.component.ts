@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { Store, select } from '@ngrx/store';
 import { Subject, skip, takeUntil } from 'rxjs';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { NgxSpinnerModule, NgxSpinnerService } from 'ngx-spinner';
 import * as AuthActions from './store/auth/auth.actions';
 import * as AuthSelectors from './store/auth/auth.selectors';
@@ -13,11 +14,12 @@ import { User } from './data/user';
 @Component({
     selector: 'app-root',
     standalone: true,
-    imports: [CommonModule, RouterModule, NgxSpinnerModule],
+    imports: [CommonModule, RouterModule, NgbModule, NgxSpinnerModule],
     templateUrl: './app.component.html',
     styleUrl: './app.component.scss'
 })
 export class AppComponent implements OnInit, OnDestroy {
+    isNavCollapsed = true;
     componentAlive$ = new Subject;
     user?: User | null;
 
